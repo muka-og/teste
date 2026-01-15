@@ -47,23 +47,60 @@ button {
   box-shadow: 0 0 12px rgba(255,77,136,.6);
 }
 
-.mensagem-especial {
+/* 💖 CORAÇÃO DA MENSAGEM */
+.mensagem-coracao {
   position: fixed;
-  top: 20%;
-  background: rgba(0,0,0,.85);
-  padding: 20px 30px;
-  border-radius: 20px;
-  color: #ff4d88;
-  font-size: 1.2em;
-  animation: fadeIn 1s ease;
-  z-index: 3;
+  width: 260px;
+  height: 240px;
+  background: radial-gradient(circle at top, #ff6fa3, #ff1f66);
+  transform: rotate(-45deg);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  animation: aparecer 1s ease;
+  box-shadow: 0 0 40px rgba(255,77,136,.9);
+  z-index: 5;
 }
 
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(-20px);}
-  to {opacity:1; transform:translateY(0);}
+.mensagem-coracao::before,
+.mensagem-coracao::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 240px;
+  background: inherit;
+  border-radius: 50%;
 }
 
+.mensagem-coracao::before {
+  top: -130px;
+  left: 0;
+}
+
+.mensagem-coracao::after {
+  left: 130px;
+  top: 0;
+}
+
+.mensagem-texto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(45deg) translate(-50%, -50%);
+  text-align: center;
+  width: 200px;
+  font-size: 1.1em;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0,0,0,.6);
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: scale(.5) rotate(-45deg); }
+  to { opacity: 1; transform: scale(1) rotate(-45deg); }
+}
+
+/* ❤️ CORAÇÕES SUBINDO */
 .coracao {
   position: fixed;
   bottom: -20px;
@@ -93,20 +130,15 @@ button {
 <audio id="musica" loop></audio>
 
 <script>
-/* ==========================
-   🔧 CONFIGURAÇÕES
-========================== */
-const MODO_TESTE = true; // ⬅️ true = teste | false = produção
-
+/* 🔧 CONFIG */
+const MODO_TESTE = true; // false quando for produção
 const inicio = new Date("2025-09-25T00:00:00");
+
 const musica = document.getElementById("musica");
 const botao = document.getElementById("btnMusica");
-
 musica.src = "https://apparent-green-a0bqdupkva.edgeone.app/aliancas.mp3";
 
-/* ==========================
-   ⏱️ CONTADOR
-========================== */
+/* ⏱️ CONTADOR */
 function atualizar() {
   const agora = new Date();
   const diff = agora - inicio;
@@ -121,9 +153,7 @@ function atualizar() {
   verificarDia25(dias);
 }
 
-/* ==========================
-   🎵 MÚSICA
-========================== */
+/* 🎵 MÚSICA */
 function toggleMusica() {
   if (musica.paused) {
     musica.play();
@@ -134,9 +164,7 @@ function toggleMusica() {
   }
 }
 
-/* ==========================
-   📅 DIA 25
-========================== */
+/* 📅 DIA 25 */
 function verificarDia25(dias) {
   const hoje = MODO_TESTE ? 25 : new Date().getDate();
   const hojeStr = new Date().toDateString();
@@ -148,20 +176,24 @@ function verificarDia25(dias) {
   }
 }
 
-/* ==========================
-   💬 MENSAGEM + ❤️
-========================== */
+/* 💬 MENSAGEM */
 function mostrarMensagem(dias) {
-  const msg = document.createElement("div");
-  msg.className = "mensagem-especial";
-  msg.innerText = `Estamos há ${dias} dias escrevendo a história do nosso amor 💞`;
-  document.body.appendChild(msg);
+  const box = document.createElement("div");
+  box.className = "mensagem-coracao";
 
-  for (let i = 0; i < 25; i++) criarCoracao();
+  const texto = document.createElement("div");
+  texto.className = "mensagem-texto";
+  texto.innerHTML = `Estamos há<br><b>${dias} dias</b><br>escrevendo a história<br>do nosso amor 💞`;
 
-  setTimeout(() => msg.remove(), 8000);
+  box.appendChild(texto);
+  document.body.appendChild(box);
+
+  for (let i = 0; i < 30; i++) criarCoracao();
+
+  setTimeout(() => box.remove(), 9000);
 }
 
+/* ❤️ CORAÇÕES */
 function criarCoracao() {
   const c = document.createElement("div");
   c.className = "coracao";
@@ -173,9 +205,7 @@ function criarCoracao() {
   setTimeout(() => c.remove(), 6000);
 }
 
-/* ==========================
-   ▶️ START
-========================== */
+/* ▶️ START */
 atualizar();
 setInterval(atualizar, 60000);
 </script>
