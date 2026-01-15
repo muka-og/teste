@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Amorzinhos 💖</title>
+
+<style>
+body {
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0;
+}
+
+.card {
+  background: #111;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255,0,100,.3);
+  text-align: center;
+  max-width: 320px;
+  z-index: 2;
+}
+
+h1 { color: #ff4d88; }
+
+.time {
+  font-size: 1.4em;
+  margin-top: 15px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg,#ff4d88,#ff1f66);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255,77,136,.6);
+}
+
+.mensagem-especial {
+  position: fixed;
+  top: 20%;
+  background: rgba(0,0,0,.85);
+  padding: 20px 30px;
+  border-radius: 20px;
+  color: #ff4d88;
+  font-size: 1.2em;
+  animation: fadeIn 1s ease;
+  z-index: 3;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(-20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+.coracao {
+  position: fixed;
+  bottom: -20px;
+  animation: subir 6s linear forwards;
+}
+
+@keyframes subir {
+  to {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>💖 Amorzinhos 💖</h1>
+  <p>Estamos juntos há:</p>
+  <div class="time" id="contador"></div>
+  <p>Te amo todos os dias 🖤</p>
+</div>
+
+<button id="btnMusica" onclick="toggleMusica()">🎵 Tocar música</button>
+
+<audio id="musica" loop></audio>
+
+<script>
+/* ==========================
+   🔧 CONFIGURAÇÕES
+========================== */
+const MODO_TESTE = true; // ⬅️ true = teste | false = produção
+
+const inicio = new Date("2025-09-25T00:00:00");
+const musica = document.getElementById("musica");
+const botao = document.getElementById("btnMusica");
+
+musica.src = "https://apparent-green-a0bqdupkva.edgeone.app/aliancas.mp3";
+
+/* ==========================
+   ⏱️ CONTADOR
+========================== */
+function atualizar() {
+  const agora = new Date();
+  const diff = agora - inicio;
+
+  const dias = Math.floor(diff / (1000*60*60*24));
+  const horas = Math.floor((diff / (1000*60*60)) % 24);
+  const minutos = Math.floor((diff / (1000*60)) % 60);
+
+  document.getElementById("contador").innerHTML =
+    `${dias} dias, ${horas} horas e ${minutos} minutos`;
+
+  verificarDia25(dias);
+}
+
+/* ==========================
+   🎵 MÚSICA
+========================== */
+function toggleMusica() {
+  if (musica.paused) {
+    musica.play();
+    botao.innerText = "⏸️ Pausar música";
+  } else {
+    musica.pause();
+    botao.innerText = "🎵 Tocar música";
+  }
+}
+
+/* ==========================
+   📅 DIA 25
+========================== */
+function verificarDia25(dias) {
+  const hoje = MODO_TESTE ? 25 : new Date().getDate();
+  const hojeStr = new Date().toDateString();
+  const jaMostrou = localStorage.getItem("dia25");
+
+  if (hoje === 25 && jaMostrou !== hojeStr) {
+    mostrarMensagem(dias);
+    localStorage.setItem("dia25", hojeStr);
+  }
+}
+
+/* ==========================
+   💬 MENSAGEM + ❤️
+========================== */
+function mostrarMensagem(dias) {
+  const msg = document.createElement("div");
+  msg.className = "mensagem-especial";
+  msg.innerText = `Estamos há ${dias} dias escrevendo a história do nosso amor 💞`;
+  document.body.appendChild(msg);
+
+  for (let i = 0; i < 25; i++) criarCoracao();
+
+  setTimeout(() => msg.remove(), 8000);
+}
+
+function criarCoracao() {
+  const c = document.createElement("div");
+  c.className = "coracao";
+  c.innerText = "💖";
+  c.style.left = Math.random() * 100 + "vw";
+  c.style.fontSize = (14 + Math.random() * 26) + "px";
+  document.body.appendChild(c);
+
+  setTimeout(() => c.remove(), 6000);
+}
+
+/* ==========================
+   ▶️ START
+========================== */
+atualizar();
+setInterval(atualizar, 60000);
+</script>
+
+</body>
+</html>
