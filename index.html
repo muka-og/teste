@@ -43,6 +43,7 @@
     .contador {
       font-size: 1.1rem;
       margin-bottom: 8px;
+      color: #ffffff; /* contador branco */
     }
 
     .mensagem {
@@ -66,14 +67,20 @@
     /* CORAÇÃO CENTRAL */
     .heart {
       position: absolute;
-      top: -80px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-45deg) scale(1);
-      width: 90px;
-      height: 90px;
+      width: 80px;
+      height: 80px;
       background: red;
+      transform: rotate(-45deg) scale(1);
       animation: pulse 1s infinite;
       filter: drop-shadow(0 0 20px red);
+    }
+
+    .heart-button {
+      position: relative;
+      margin: 0 auto 12px;
+      top: 0;
+      left: 0;
+    }(0 0 20px red);
     }
 
     .heart::before,
@@ -134,10 +141,13 @@
 <div id="splash">💖</div>
 
 <div class="card">
-  <div class="heart" id="heart"></div>
   <h1>💖 Amorzinhos 💖</h1>
   <div class="contador" id="contador"></div>
   <div class="mensagem" id="mensagem"></div>
+
+  <!-- CORAÇÃO SOBRE O BOTÃO -->
+  <div class="heart heart-button" id="heart"></div>
+
   <button id="playBtn">🎵 Tocar música</button>
 </div>
 
@@ -247,8 +257,19 @@ function animateBeat() {
   requestAnimationFrame(animateBeat);
 }
 
-playBtn.addEventListener('click', () => {
-  startAudio();
+playBtn.addEventListener('click', async () => {
+  if (!audioCtx) {
+    startAudio();
+    playBtn.textContent = '⏸️ Pausar música';
+  } else if (audio.paused) {
+    await audioCtx.resume();
+    audio.play();
+    playBtn.textContent = '⏸️ Pausar música';
+  } else {
+    audio.pause();
+    playBtn.textContent = '🎵 Tocar música';
+  }
+});
 });
 
 // SERVICE WORKER
@@ -258,21 +279,3 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
-
-/* =======================
-manifest.json
-=======================
-{
-  "name": "Amorzinhos",
-  "short_name": "Amor",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#ff4d88",
-  "theme_color": "#ff4d88"
-}
-
-=======================
-sw.js
-=======================
-self.addEventListener('fetch', () => {});
-*/
