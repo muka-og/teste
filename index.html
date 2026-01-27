@@ -1,160 +1,218 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amorzinhos 💖</title>
-  <style>
-    * { box-sizing: border-box; font-family: Arial, sans-serif; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle, #ff5c9d, #6b0f2c);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ff4d88">
+<title>Amorzinhos 💖</title>
 
-    .screen {
-      display: none;
-      text-align: center;
-      width: 90%;
-      max-width: 360px;
-      padding: 24px;
-      background: rgba(0,0,0,0.45);
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255, 0, 100, 0.5);
-    }
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle,#3a001f,#0b0006);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:system-ui;
+  color:#fff;
+  overflow:hidden;
+}
 
-    .screen.active { display: block; }
+/* ===== LOGIN ===== */
+#lock{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle,#ff4d88,#2b0016);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+.lock-box{
+  background:#111;
+  padding:26px;
+  border-radius:22px;
+  width:85%;
+  max-width:320px;
+  text-align:center;
+  box-shadow:0 0 40px #ff4d88;
+}
+.lock-box input{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  margin:12px 0;
+  font-size:1rem;
+}
+.lock-box button{
+  border:none;
+  border-radius:999px;
+  padding:14px 20px;
+  background:linear-gradient(135deg,#ff4d88,#ff8fb8);
+  color:#fff;
+  font-size:1rem;
+}
 
-    h1 { margin-bottom: 12px; }
+/* ===== CARD ===== */
+.card{
+  position:relative;
+  background:#111;
+  border-radius:24px;
+  padding:80px 22px 30px;
+  width:min(90vw,360px);
+  text-align:center;
+  box-shadow:0 0 40px rgba(255,77,136,.35);
+}
 
-    input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      margin-bottom: 16px;
-      text-align: center;
-    }
+/* ===== HEART ===== */
+.heart{
+  position:absolute;
+  top:20px;
+  left:50%;
+  width:90px;
+  height:90px;
+  background:red;
+  transform:translateX(-50%) rotate(-45deg);
+  animation:pulse 1s infinite;
+  filter:drop-shadow(0 0 20px red);
+}
+.heart:before,.heart:after{
+  content:'';
+  position:absolute;
+  width:90px;
+  height:90px;
+  background:inherit;
+  border-radius:50%;
+}
+.heart:before{top:-45px}
+.heart:after{left:45px}
 
-    .heart-btn {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: none;
-      background: #ff3d7f;
-      color: #fff;
-      font-size: 36px;
-      cursor: pointer;
-      animation: pulse 1.5s infinite;
-    }
+@keyframes pulse{
+  0%{transform:translateX(-50%) rotate(-45deg) scale(1)}
+  50%{transform:translateX(-50%) rotate(-45deg) scale(1.15)}
+  100%{transform:translateX(-50%) rotate(-45deg) scale(1)}
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 61, 127, 0.7); }
-      50% { transform: scale(1.15); box-shadow: 0 0 30px rgba(255, 61, 127, 0.9); }
-      100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 61, 127, 0.7); }
-    }
+h1{color:#ff5fa2;margin-bottom:10px}
+#contador{color:#fff;font-size:1.1rem;margin-bottom:8px}
+#mensagem{opacity:.9}
 
-    .counter {
-      font-size: 18px;
-      margin: 12px 0;
-      color: #fff;
-    }
+button{
+  margin-top:18px;
+  border:none;
+  border-radius:999px;
+  padding:14px 22px;
+  background:linear-gradient(135deg,#ff4d88,#ff8fb8);
+  color:#fff;
+  font-size:1rem;
+}
 
-    .big-heart {
-      font-size: 64px;
-      margin-bottom: 12px;
-      animation: pulse 1.2s infinite;
-    }
-
-    .music-btn {
-      margin-top: 12px;
-      padding: 14px 20px;
-      border-radius: 30px;
-      border: none;
-      background: #ff3d7f;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
+/* partículas */
+.particle{
+  position:absolute;
+  bottom:-20px;
+  animation:float 4s linear forwards;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0}
+}
+</style>
 </head>
+
 <body>
 
-  <!-- TELA DE SENHA -->
-  <div class="screen active" id="login">
-    <h1>🔐 Só nós dois</h1>
-    <p>Digite a senha 💌</p>
-    <input type="password" id="senha" placeholder="Senha secreta" />
-    <button class="heart-btn" onclick="checkSenha()">💖</button>
-    <p id="erro" style="color:#ffb3c7; margin-top:10px;"></p>
+<!-- TELA DE SENHA -->
+<div id="lock">
+  <div class="lock-box">
+    <h2>🔐 Só nós dois</h2>
+    <input id="senha" type="password" placeholder="Senha">
+    <button onclick="unlock()">❤️ Entrar</button>
   </div>
+</div>
 
-  <!-- TELA PRINCIPAL -->
-  <div class="screen" id="app">
-    <div class="big-heart">💓</div>
-    <h1>Amorzinhos 💕</h1>
-    <div class="counter" id="contador"></div>
-    <p>Cada dia com você é único ✨</p>
-    <button class="music-btn" onclick="toggleMusic()">⏸ Pausar música</button>
-  </div>
+<!-- APP -->
+<div class="card">
+  <div class="heart" id="heart"></div>
+  <h1>💖 Amorzinhos 💖</h1>
+  <div id="contador"></div>
+  <div id="mensagem"></div>
+  <button id="playBtn">🎵 Tocar música</button>
+</div>
 
-  <audio id="musica" src="https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3" loop></audio>
+<script>
+/* CONFIG */
+const SENHA_CORRETA = "0925";
+const startDate = new Date("2025-09-25T00:00:00");
+const musicUrl = "https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3";
 
-  <script>
-    const SENHA_CORRETA = "amor25"; // <<< MUDE AQUI
-    const inicio = new Date("2025-09-25T00:00:00"); // <<< DATA DE INÍCIO
+/* LOCK */
+function unlock(){
+  if(document.getElementById("senha").value === SENHA_CORRETA){
+    document.getElementById("lock").style.display="none";
+    startAudio(); // toca automaticamente
+  }
+}
 
-    function checkSenha() {
-      const senha = document.getElementById("senha").value;
-      if (senha === SENHA_CORRETA) {
-        document.getElementById("login").classList.remove("active");
-        document.getElementById("app").classList.add("active");
-        iniciar();
-      } else {
-        document.getElementById("erro").innerText = "Senha errada 😢";
-      }
-    }
+/* CONTADOR */
+const contador=document.getElementById("contador");
+setInterval(()=>{
+  const diff=new Date()-startDate;
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor(diff/3600000)%24;
+  const m=Math.floor(diff/60000)%60;
+  contador.textContent=`Estamos juntos há ${d} dias, ${h}h ${m}m`;
+},1000);
 
-    function iniciar() {
-      atualizarContador();
-      setInterval(atualizarContador, 1000);
-      const musica = document.getElementById("musica");
-      musica.volume = 0.8;
-      musica.play().catch(()=>{});
-    }
+/* MENSAGENS */
+const msgs=[
+ "Cada dia com você é único 💕",
+ "Meu lugar favorito é você 🫶",
+ "Te escolheria mil vezes 💖"
+];
+const msgEl=document.getElementById("mensagem");
+setInterval(()=>msgEl.textContent=msgs[Math.floor(Math.random()*msgs.length)],8000);
+msgEl.textContent=msgs[0];
 
-    function atualizarContador() {
-      const agora = new Date();
-      let diff = Math.floor((agora - inicio) / 1000);
-      const dias = Math.floor(diff / 86400);
-      diff %= 86400;
-      const horas = Math.floor(diff / 3600);
-      diff %= 3600;
-      const minutos = Math.floor(diff / 60);
+/* ÁUDIO */
+let audio=new Audio(musicUrl);
+audio.loop=true;
+let playing=false;
 
-      document.getElementById("contador").innerText =
-        `${dias} dias, ${horas}h ${minutos}m`;
-    }
+const heart=document.getElementById("heart");
 
-    function toggleMusic() {
-      const musica = document.getElementById("musica");
-      const btn = event.target;
-      if (musica.paused) {
-        musica.play();
-        btn.innerText = "⏸ Pausar música";
-      } else {
-        musica.pause();
-        btn.innerText = "▶ Tocar música";
-      }
-    }
-  </script>
+function startAudio(){
+  audio.play();
+  playing=true;
+  animate();
+}
+
+document.getElementById("playBtn").onclick=()=>{
+  if(playing){audio.pause();playing=false}
+  else{audio.play();playing=true}
+};
+
+function animate(){
+  if(!playing) return;
+  const scale=1+Math.random()*0.1;
+  heart.style.transform=`translateX(-50%) rotate(-45deg) scale(${scale})`;
+  spawn();
+  if(navigator.vibrate) navigator.vibrate(40);
+  requestAnimationFrame(animate);
+}
+
+/* partículas */
+function spawn(){
+  const p=document.createElement("div");
+  p.className="particle";
+  p.textContent=Math.random()>0.5?"💖":"✨";
+  p.style.left=Math.random()*100+"vw";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),4000);
+}
+</script>
 
 </body>
 </html>
