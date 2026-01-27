@@ -1,162 +1,207 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Amorzinhos 💖</title>
 
-<!-- PWA -->
-<link rel="manifest" href="data:application/json,{
-  &quot;name&quot;:&quot;Amorzinhos&quot;,
-  &quot;short_name&quot;:&quot;Amor&quot;,
-  &quot;start_url&quot;:&quot;.&quot;,
-  &quot;display&quot;:&quot;standalone&quot;,
-  &quot;background_color&quot;:&quot;#0f0f0f&quot;,
-  &quot;theme_color&quot;:&quot;#ff4d88&quot;
-}">
-<meta name="theme-color" content="#ff4d88">
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#ff4d88" />
 
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;height:100vh;
-  background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
-  color:#fff;font-family:system-ui,Arial;
-  display:flex;justify-content:center;align-items:center;
-  overflow:hidden
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #2a0015, #000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  overflow: hidden;
 }
-.app{width:100%;max-width:420px;padding:20px;z-index:2}
-.card{
-  background:#111;padding:28px;border-radius:26px;
-  box-shadow:0 0 35px rgba(255,0,100,.35);
-  text-align:center
+
+.card {
+  background: #0f0f0f;
+  padding: 28px;
+  border-radius: 26px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255,77,136,.5);
+  max-width: 320px;
+  width: 90%;
 }
-h1{color:#ff4d88;margin-top:0}
-.time{font-size:1.3em;margin:16px 0}
-.heart-center{
-  font-size:90px;margin:18px 0;
-  transform:scale(1);transition:transform .08s linear
+
+h1 {
+  color: #ff4d88;
+  margin-bottom: 10px;
 }
-button{
-  width:100%;padding:14px;
-  background:linear-gradient(135deg,#ff4d88,#ff1f66);
-  border:none;border-radius:16px;
-  color:#fff;font-weight:bold;font-size:1em;
-  box-shadow:0 0 14px rgba(255,77,136,.7)
+
+#contador {
+  font-size: 1.2em;
+  margin: 12px 0;
 }
-.heart-bg{
-  position:absolute;bottom:-10vh;
-  animation:subir 6s linear forwards;
-  opacity:.6
+
+button {
+  margin-top: 16px;
+  padding: 14px 24px;
+  background: #ff4d88;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255,77,136,.7);
 }
-@keyframes subir{
-  to{transform:translateY(-120vh);opacity:0}
+
+button:active {
+  transform: scale(.95);
 }
-.mensagem{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.9);
-  display:flex;justify-content:center;align-items:center;
-  z-index:10
+
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 22px;
+  animation: floatUp 6s linear forwards;
 }
-.mensagem-conteudo{
-  background:#ff4d88;width:280px;height:280px;
-  border-radius:50%;padding:35px;
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;box-shadow:0 0 40px rgba(255,77,136,.9)
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+/* 🎉 SURPRESA DIA 25 */
+#surpresa {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+#surpresa .box {
+  width: 260px;
+  height: 230px;
+  background: #ff4d88;
+  position: relative;
+  transform: rotate(-45deg);
+}
+
+#surpresa .box::before,
+#surpresa .box::after {
+  content: "";
+  width: 260px;
+  height: 230px;
+  background: #ff4d88;
+  border-radius: 50%;
+  position: absolute;
+}
+
+#surpresa .box::before {
+  top: -130px;
+  left: 0;
+}
+
+#surpresa .box::after {
+  left: 130px;
+  top: 0;
+}
+
+#surpresa .msg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
-  <div class="card">
-    <h1>💖 Amorzinhos 💖</h1>
-    <p>Estamos juntos há:</p>
-    <div class="time" id="contador"></div>
+<div class="card">
+  <h1>💖 Amorzinhos 💖</h1>
+  <p>Estamos juntos há:</p>
+  <div id="contador">carregando...</div>
+  <p>Te amo todos os dias 🖤</p>
+  <button onclick="toggleMusica()">🎵 Tocar música</button>
+</div>
 
-    <div class="heart-center" id="heart">❤️</div>
+<audio id="musica" src="https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3" loop></audio>
 
-    <button id="btn">🎵 Tocar música</button>
-    <p>Te amo todos os dias 🖤</p>
+<!-- 🎉 SURPRESA -->
+<div id="surpresa">
+  <div class="box">
+    <div class="msg" id="msgSurpresa"></div>
   </div>
 </div>
 
-<audio id="audio" crossorigin="anonymous" loop>
-  <source src="https://apparent-green-a0bqdupkva.edgeone.app/aliancas.mp3" type="audio/mpeg">
-</audio>
-
 <script>
+/* 📅 DATA DO NAMORO */
 const inicio = new Date("2025-09-25T00:00:00");
 const contador = document.getElementById("contador");
-const audio = document.getElementById("audio");
-const btn = document.getElementById("btn");
-const heart = document.getElementById("heart");
 
-let ctx, analyser, dataArray, vibraAtivo=false;
+/* 🎵 MUSICA */
+const musica = document.getElementById("musica");
+let tocando = false;
 
-function atualizar(){
-  const agora=new Date(), diff=agora-inicio;
-  const d=Math.floor(diff/86400000);
-  const h=Math.floor(diff/3600000)%24;
-  const m=Math.floor(diff/60000)%60;
-  contador.innerText=`${d} dias, ${h} horas e ${m} minutos`;
-  if(new Date().getDate()===25 && !document.getElementById("msg25")){
-    const msg=document.createElement("div");
-    msg.className="mensagem";msg.id="msg25";
-    msg.innerHTML=`<div class="mensagem-conteudo">
-      Estamos há<br><strong>${d} dias</strong><br>
-      escrevendo a história do nosso amor 💖
-    </div>`;
-    document.body.appendChild(msg);
-    setTimeout(()=>msg.remove(),8000);
+function toggleMusica() {
+  if (!tocando) {
+    musica.play();
+    tocando = true;
+  } else {
+    musica.pause();
+    tocando = false;
   }
 }
 
-function criarCoracao(){
-  const h=document.createElement("div");
-  h.className="heart-bg";h.innerText="❤️";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=(Math.random()*20+14)+"px";
+/* ⏱️ CONTADOR */
+function atualizar() {
+  const agora = new Date();
+  const diff = agora - inicio;
+
+  const dias = Math.floor(diff / (1000*60*60*24));
+  const horas = Math.floor(diff / (1000*60*60) % 24);
+  const minutos = Math.floor(diff / (1000*60) % 60);
+
+  contador.innerText = `${dias} dias, ${horas}h ${minutos}m`;
+}
+setInterval(atualizar, 1000);
+atualizar();
+
+/* ❤️ CORAÇÕES */
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "❤️";
+  h.style.left = Math.random()*100+"vw";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),6000);
-}
-setInterval(criarCoracao,700);
+}, 500);
 
-function iniciarAnalise(){
-  ctx=new (window.AudioContext||window.webkitAudioContext)();
-  const src=ctx.createMediaElementSource(audio);
-  analyser=ctx.createAnalyser();
-  analyser.fftSize=256;
-  dataArray=new Uint8Array(analyser.frequencyBinCount);
-  src.connect(analyser);analyser.connect(ctx.destination);
-  analisarBatida();
+/* 🎉 DIA 25 */
+const hoje = new Date();
+if (hoje.getDate() === 25) {
+  const dias = Math.floor((hoje - inicio)/(1000*60*60*24));
+  document.getElementById("msgSurpresa").innerText =
+    `Estamos há ${dias} dias escrevendo a história do nosso amor 💖`;
+  document.getElementById("surpresa").style.display = "flex";
 }
 
-function analisarBatida(){
-  analyser.getByteFrequencyData(dataArray);
-  let energia=dataArray.reduce((a,b)=>a+b,0)/dataArray.length;
-  let escala=1+(energia/200);
-  heart.style.transform=`scale(${escala})`;
-  if(energia>120 && navigator.vibrate){
-    navigator.vibrate(30);
-  }
-  requestAnimationFrame(analisarBatida);
+/* 🛠️ SERVICE WORKER */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
 }
-
-btn.onclick=()=>{
-  if(audio.paused){
-    audio.play();
-    btn.innerText="⏸️ Pausar música";
-    if(!ctx) iniciarAnalise();
-  }else{
-    audio.pause();
-    btn.innerText="🎵 Tocar música";
-  }
-};
-
-atualizar();
-setInterval(atualizar,60000);
 </script>
 
 </body>
