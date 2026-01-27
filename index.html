@@ -3,135 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Amorzinhos 💖</title>
 
 <style>
+  * { box-sizing: border-box; }
+
   body {
-    background: radial-gradient(circle at top, #1a1a1a, #000);
-    color: #fff;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
     margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+    color: #fff;
+    font-family: system-ui, Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     overflow: hidden;
   }
 
-  .card {
-    background: rgba(0,0,0,0.7);
-    padding: 30px;
-    border-radius: 20px;
+  .app {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
     text-align: center;
-    box-shadow: 0 0 30px rgba(255,77,136,0.4);
+    position: relative;
     z-index: 2;
-    max-width: 320px;
   }
 
-  h1 { color: #ff4d88; }
+  .card {
+    background: #111;
+    padding: 28px;
+    border-radius: 24px;
+    box-shadow: 0 0 30px rgba(255, 0, 100, 0.35);
+  }
+
+  h1 {
+    color: #ff4d88;
+    margin-top: 0;
+  }
 
   .time {
-    font-size: 1.4em;
-    margin: 15px 0;
+    font-size: 1.3em;
+    margin: 16px 0;
   }
 
-  button {
-    margin-top: 15px;
-    padding: 12px 22px;
-    background: linear-gradient(135deg, #ff4d88, #ff1f66);
-    border: none;
-    border-radius: 14px;
-    color: #fff;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 0 12px rgba(255,77,136,0.6);
-  }
-
-  /* 💖 coração pulsante */
-  .heart {
-    position: fixed;
-    font-size: 120px;
-    color: #ff4d88;
-    animation: pulse 1s infinite;
-    opacity: 0.15;
-    z-index: 0;
+  /* ❤️ CORAÇÃO PULSANTE */
+  .heart-center {
+    font-size: 90px;
+    margin: 20px 0;
+    animation: pulse 1.2s infinite ease-in-out;
+    animation-play-state: paused;
   }
 
   @keyframes pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.25); }
     100% { transform: scale(1); }
   }
 
-  /* 🎁 mensagem dia 25 */
-  .mensagem {
-    position: fixed;
-    background: #ff4d88;
+  button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    background: linear-gradient(135deg, #ff4d88, #ff1f66);
+    border: none;
+    border-radius: 16px;
     color: #fff;
-    padding: 40px;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 1.2em;
-    box-shadow: 0 0 40px rgba(255,77,136,0.8);
-    z-index: 10;
-    animation: surgir 1s ease;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 14px rgba(255,77,136,.7);
   }
 
-  @keyframes surgir {
-    from { transform: scale(0); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+  /* 💕 CORAÇÕES DE FUNDO */
+  .heart {
+    position: absolute;
+    bottom: -10vh;
+    color: #ff4d88;
+    opacity: .6;
+    animation: subir 6s linear forwards;
+  }
+
+  @keyframes subir {
+    to {
+      transform: translateY(-120vh);
+      opacity: 0;
+    }
+  }
+
+  /* 💖 SURPRESA DIA 25 */
+  .mensagem {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .mensagem-conteudo {
+    background: #ff4d88;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    padding: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.1em;
+    box-shadow: 0 0 40px rgba(255,77,136,.9);
+  }
+
+  @media (max-height: 600px) {
+    .heart-center { font-size: 70px; }
   }
 </style>
 </head>
 
 <body>
 
-<div class="heart">💖</div>
+<div class="app">
+  <div class="card">
+    <h1>💖 Amorzinhos 💖</h1>
+    <p>Estamos juntos há:</p>
+    <div class="time" id="contador"></div>
 
-<div class="card">
-  <h1>💖 Amorzinhos 💖</h1>
-  <p>Estamos juntos há:</p>
-  <div class="time" id="contador"></div>
-  <p>Te amo todos os dias 🖤</p>
-  <button onclick="toggleMusica()">🎵 Tocar música</button>
+    <div class="heart-center" id="heart">❤️</div>
+
+    <button id="btnMusica">🎵 Tocar música</button>
+
+    <p>Te amo todos os dias 🖤</p>
+  </div>
 </div>
 
 <audio id="musica" loop>
-  <source src="https://drive.google.com/uc?export=download&id=1uEZxqScwMBa1HlR47Kl305Jnw1rcGrv7" type="audio/mpeg">
+  <source src="https://apparent-green-a0bqdupkva.edgeone.app/aliancas.mp3" type="audio/mpeg">
 </audio>
 
 <script>
   const inicio = new Date("2025-09-25T00:00:00");
-  const musica = document.getElementById("musica");
   const contador = document.getElementById("contador");
+  const musica = document.getElementById("musica");
+  const btn = document.getElementById("btnMusica");
+  const heartCenter = document.getElementById("heart");
 
   function atualizarContador() {
     const agora = new Date();
     const diff = agora - inicio;
 
-    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutos = Math.floor((diff / (1000 * 60)) % 60);
+    const dias = Math.floor(diff / (1000*60*60*24));
+    const horas = Math.floor((diff / (1000*60*60)) % 24);
+    const minutos = Math.floor((diff / (1000*60)) % 60);
 
-    contador.innerHTML = `${dias} dias, ${horas}h ${minutos}min`;
-
+    contador.innerText = `${dias} dias, ${horas} horas e ${minutos} minutos`;
     verificarDia25(dias);
   }
 
-  function toggleMusica() {
-    musica.paused ? musica.play() : musica.pause();
+  btn.addEventListener("click", () => {
+    if (musica.paused) {
+      musica.play();
+      btn.innerText = "⏸️ Pausar música";
+      heartCenter.style.animationPlayState = "running";
+    } else {
+      musica.pause();
+      btn.innerText = "🎵 Tocar música";
+      heartCenter.style.animationPlayState = "paused";
+    }
+  });
+
+  function criarCoracaoFundo() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "❤️";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.fontSize = (Math.random()*20 + 14) + "px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
   }
+
+  setInterval(criarCoracaoFundo, 700);
 
   function verificarDia25(dias) {
     const hoje = new Date().getDate();
-    if (hoje === 25 && !document.querySelector(".mensagem")) {
-      const msg = document.createElement("div");
-      msg.className = "mensagem";
-      msg.innerHTML = `💖<br>Estamos há<br><strong>${dias} dias</strong><br>escrevendo a história do nosso amor`;
-      document.body.appendChild(msg);
+    if (hoje === 25 && !document.getElementById("msg25")) {
+      const m = document.createElement("div");
+      m.className = "mensagem";
+      m.id = "msg25";
+      m.innerHTML = `
+        <div class="mensagem-conteudo">
+          Estamos há<br><strong>${dias} dias</strong><br>
+          escrevendo a história do nosso amor 💖
+        </div>`;
+      document.body.appendChild(m);
+      setTimeout(()=>m.remove(),8000);
     }
   }
 
@@ -141,3 +206,4 @@
 
 </body>
 </html>
+
