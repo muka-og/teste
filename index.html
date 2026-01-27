@@ -2,247 +2,141 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Amorzinhos 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Amorzinhos 💖</title>
+
 <style>
-body {
-  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-  color: #fff;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-/* 📱 CARD */
-.card {
-  background: #111;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(255,0,100,.3);
-  text-align: center;
-  max-width: 320px;
-  width: 90%;
-  z-index: 2;
-}
-
-h1 { color: #ff4d88; }
-
-.time {
-  font-size: 1.2em;
-  margin-top: 15px;
-}
-
-/* 🎵 BOTÃO */
-button {
-  margin-top: 15px;
-  padding: 12px 22px;
-  background: linear-gradient(135deg,#ff4d88,#ff1f66);
-  border: none;
-  border-radius: 14px;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 12px rgba(255,77,136,.6);
-  z-index: 2;
-}
-
-/* 💓 CORAÇÃO PULSANTE */
-.coracao-central {
-  font-size: 80px;
-  margin-top: 20px;
-  animation: pulsar 1s infinite ease-in-out;
-  z-index: 2;
-}
-
-@keyframes pulsar {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-/* ❤️ CORAÇÕES SUBINDO */
-.coracao {
-  position: fixed;
-  bottom: -20px;
-  pointer-events: none;
-  animation: subir 6s linear forwards;
-}
-
-@keyframes subir {
-  to {
-    transform: translateY(-120vh);
-    opacity: 0;
+  body {
+    background: radial-gradient(circle at top, #1a1a1a, #000);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
   }
-}
 
-/* ✨ PARTÍCULAS */
-.particula {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  background: rgba(255,77,136,.9);
-  border-radius: 50%;
-  animation: brilho 4s linear forwards;
-}
-
-@keyframes brilho {
-  to {
-    transform: translateY(-100vh);
-    opacity: 0;
+  .card {
+    background: rgba(0,0,0,0.7);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255,77,136,0.4);
+    z-index: 2;
+    max-width: 320px;
   }
-}
 
-/* 💖 CORAÇÃO DA MENSAGEM */
-.caixa-coracao {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 200px;
-  height: 180px;
-  background: #ff4d88;
-  transform: translate(-50%, -50%) rotate(-45deg);
-  z-index: 5;
-  box-shadow: 0 0 40px rgba(255,77,136,.9);
-}
+  h1 { color: #ff4d88; }
 
-.caixa-coracao::before,
-.caixa-coracao::after {
-  content: "";
-  position: absolute;
-  width: 200px;
-  height: 180px;
-  background: #ff4d88;
-  border-radius: 50%;
-}
+  .time {
+    font-size: 1.4em;
+    margin: 15px 0;
+  }
 
-.caixa-coracao::before { top: -90px; }
-.caixa-coracao::after { left: 90px; }
+  button {
+    margin-top: 15px;
+    padding: 12px 22px;
+    background: linear-gradient(135deg, #ff4d88, #ff1f66);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(255,77,136,0.6);
+  }
 
-.texto-coracao {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: rotate(45deg) translate(-50%, -50%);
-  width: 160px;
-  text-align: center;
-  font-weight: bold;
-  color: #fff;
-}
+  /* 💖 coração pulsante */
+  .heart {
+    position: fixed;
+    font-size: 120px;
+    color: #ff4d88;
+    animation: pulse 1s infinite;
+    opacity: 0.15;
+    z-index: 0;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  /* 🎁 mensagem dia 25 */
+  .mensagem {
+    position: fixed;
+    background: #ff4d88;
+    color: #fff;
+    padding: 40px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1.2em;
+    box-shadow: 0 0 40px rgba(255,77,136,0.8);
+    z-index: 10;
+    animation: surgir 1s ease;
+  }
+
+  @keyframes surgir {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
 </style>
 </head>
 
 <body>
 
+<div class="heart">💖</div>
+
 <div class="card">
   <h1>💖 Amorzinhos 💖</h1>
   <p>Estamos juntos há:</p>
   <div class="time" id="contador"></div>
-  <div class="coracao-central">💗</div>
   <p>Te amo todos os dias 🖤</p>
+  <button onclick="toggleMusica()">🎵 Tocar música</button>
 </div>
 
-<button id="btnMusica">🎵 Tocar música</button>
-
-<audio id="musica" loop></audio>
+<audio id="musica" loop>
+  <source src="https://drive.google.com/uc?export=download&id=1uEZxqScwMBa1HlR47Kl305Jnw1rcGrv7" type="audio/mpeg">
+</audio>
 
 <script>
-/* 🔧 CONFIG */
-const MODO_TESTE = true; // false quando for produção
-const inicio = new Date("2025-09-25T00:00:00");
+  const inicio = new Date("2025-09-25T00:00:00");
+  const musica = document.getElementById("musica");
+  const contador = document.getElementById("contador");
 
-const musica = document.getElementById("musica");
-const botao = document.getElementById("btnMusica");
-musica.src = "https://drive.google.com/file/d/1uEZxqScwMBa1HlR47Kl305Jnw1rcGrv7/view?usp=drive_link";
+  function atualizarContador() {
+    const agora = new Date();
+    const diff = agora - inicio;
 
-/* ⏱️ CONTADOR */
-function atualizar() {
-  const agora = new Date();
-  const diff = agora - inicio;
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diff / (1000 * 60)) % 60);
 
-  const dias = Math.floor(diff / (1000*60*60*24));
-  const horas = Math.floor((diff / (1000*60*60)) % 24);
-  const minutos = Math.floor((diff / (1000*60)) % 60);
+    contador.innerHTML = `${dias} dias, ${horas}h ${minutos}min`;
 
-  document.getElementById("contador").innerText =
-    `${dias} dias, ${horas} horas e ${minutos} minutos`;
-
-  verificarDia25(dias);
-}
-
-/* 🎵 MÚSICA + 💓 PULSO */
-botao.onclick = () => {
-  if (musica.paused) {
-    musica.play();
-    botao.innerText = "⏸️ Pausar música";
-    document.querySelector(".coracao-central").style.animationDuration = "0.6s";
-  } else {
-    musica.pause();
-    botao.innerText = "🎵 Tocar música";
-    document.querySelector(".coracao-central").style.animationDuration = "1.2s";
-  }
-};
-
-/* 📅 DIA 25 */
-function verificarDia25(dias) {
-  const hoje = MODO_TESTE ? 25 : new Date().getDate();
-  const key = new Date().toDateString();
-
-  if (hoje === 25 && localStorage.getItem("dia25") !== key) {
-    mostrarMensagem(dias);
-    localStorage.setItem("dia25", key);
-  }
-}
-
-/* 💬 MENSAGEM + ✨ */
-function mostrarMensagem(dias) {
-  const box = document.createElement("div");
-  box.className = "caixa-coracao";
-
-  const texto = document.createElement("div");
-  texto.className = "texto-coracao";
-  texto.innerHTML = `Estamos há<br><b>${dias} dias</b><br>escrevendo a história<br>do nosso amor 💞`;
-
-  box.appendChild(texto);
-  document.body.appendChild(box);
-
-  for (let i = 0; i < 30; i++) {
-    criarCoracao();
-    criarParticula();
+    verificarDia25(dias);
   }
 
-  setTimeout(() => box.remove(), 9000);
-}
+  function toggleMusica() {
+    musica.paused ? musica.play() : musica.pause();
+  }
 
-/* ❤️ */
-function criarCoracao() {
-  const c = document.createElement("div");
-  c.className = "coracao";
-  c.innerText = "💖";
-  c.style.left = Math.random() * 100 + "vw";
-  c.style.fontSize = (14 + Math.random() * 26) + "px";
-  document.body.appendChild(c);
-  setTimeout(() => c.remove(), 6000);
-}
+  function verificarDia25(dias) {
+    const hoje = new Date().getDate();
+    if (hoje === 25 && !document.querySelector(".mensagem")) {
+      const msg = document.createElement("div");
+      msg.className = "mensagem";
+      msg.innerHTML = `💖<br>Estamos há<br><strong>${dias} dias</strong><br>escrevendo a história do nosso amor`;
+      document.body.appendChild(msg);
+    }
+  }
 
-/* ✨ */
-function criarParticula() {
-  const p = document.createElement("div");
-  p.className = "particula";
-  p.style.left = Math.random() * 100 + "vw";
-  p.style.bottom = "0";
-  document.body.appendChild(p);
-  setTimeout(() => p.remove(), 4000);
-}
-
-/* ▶️ START */
-atualizar();
-setInterval(atualizar, 60000);
+  atualizarContador();
+  setInterval(atualizarContador, 60000);
 </script>
 
 </body>
