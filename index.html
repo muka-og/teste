@@ -1,218 +1,284 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#ff4d88">
-<title>Amorzinhos 💖</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ff4d88" />
+  <title>Amorzinhos 💖</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  min-height:100vh;
-  background:radial-gradient(circle,#3a001f,#0b0006);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:system-ui;
-  color:#fff;
-  overflow:hidden;
-}
+  <link rel="manifest" href="manifest.json" />
 
-/* ===== LOGIN ===== */
-#lock{
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle,#ff4d88,#2b0016);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
-}
-.lock-box{
-  background:#111;
-  padding:26px;
-  border-radius:22px;
-  width:85%;
-  max-width:320px;
-  text-align:center;
-  box-shadow:0 0 40px #ff4d88;
-}
-.lock-box input{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  margin:12px 0;
-  font-size:1rem;
-}
-.lock-box button{
-  border:none;
-  border-radius:999px;
-  padding:14px 20px;
-  background:linear-gradient(135deg,#ff4d88,#ff8fb8);
-  color:#fff;
-  font-size:1rem;
-}
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #3a001f, #0b0006);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
 
-/* ===== CARD ===== */
-.card{
-  position:relative;
-  background:#111;
-  border-radius:24px;
-  padding:80px 22px 30px;
-  width:min(90vw,360px);
-  text-align:center;
-  box-shadow:0 0 40px rgba(255,77,136,.35);
-}
+    .hidden { display: none; }
 
-/* ===== HEART ===== */
-.heart{
-  position:absolute;
-  top:20px;
-  left:50%;
-  width:90px;
-  height:90px;
-  background:red;
-  transform:translateX(-50%) rotate(-45deg);
-  animation:pulse 1s infinite;
-  filter:drop-shadow(0 0 20px red);
-}
-.heart:before,.heart:after{
-  content:'';
-  position:absolute;
-  width:90px;
-  height:90px;
-  background:inherit;
-  border-radius:50%;
-}
-.heart:before{top:-45px}
-.heart:after{left:45px}
+    /* TELA BLOQUEIO */
+    #lockscreen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, #ff4d88, #2b0016);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      z-index: 20;
+    }
 
-@keyframes pulse{
-  0%{transform:translateX(-50%) rotate(-45deg) scale(1)}
-  50%{transform:translateX(-50%) rotate(-45deg) scale(1.15)}
-  100%{transform:translateX(-50%) rotate(-45deg) scale(1)}
-}
+    #lockscreen input {
+      padding: 14px;
+      border-radius: 999px;
+      border: none;
+      width: 220px;
+      text-align: center;
+      font-size: 1rem;
+      outline: none;
+    }
 
-h1{color:#ff5fa2;margin-bottom:10px}
-#contador{color:#fff;font-size:1.1rem;margin-bottom:8px}
-#mensagem{opacity:.9}
+    #lockscreen .error {
+      color: #fff;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
 
-button{
-  margin-top:18px;
-  border:none;
-  border-radius:999px;
-  padding:14px 22px;
-  background:linear-gradient(135deg,#ff4d88,#ff8fb8);
-  color:#fff;
-  font-size:1rem;
-}
+    .heart-btn {
+      width: 90px;
+      height: 90px;
+      background: red;
+      transform: rotate(-45deg);
+      position: relative;
+      animation: pulse 1s infinite;
+      cursor: pointer;
+      box-shadow: 0 0 30px red;
+    }
 
-/* partículas */
-.particle{
-  position:absolute;
-  bottom:-20px;
-  animation:float 4s linear forwards;
-}
-@keyframes float{
-  to{transform:translateY(-120vh);opacity:0}
-}
-</style>
+    .heart-btn::before,
+    .heart-btn::after {
+      content: '';
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart-btn::before { top: -45px; left: 0; }
+    .heart-btn::after { left: 45px; top: 0; }
+
+    @keyframes pulse {
+      0% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.15); }
+      100% { transform: rotate(-45deg) scale(1); }
+    }
+
+    /* CARD */
+    .card {
+      position: relative;
+      background: #111;
+      border-radius: 24px;
+      padding: 36px 22px 32px;
+      width: min(90vw, 360px);
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255, 77, 136, 0.35);
+      z-index: 2;
+    }
+
+    .heart {
+      position: absolute;
+      top: -70px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+      width: 80px;
+      height: 80px;
+      background: red;
+      animation: pulse 1s infinite;
+      filter: drop-shadow(0 0 20px red);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -40px; left: 0; }
+    .heart::after { left: 40px; top: 0; }
+
+    h1 { margin-top: 24px; color: #ff5fa2; }
+
+    .contador {
+      font-size: 1.1rem;
+      margin: 10px 0;
+      color: #fff; /* contador branco */
+    }
+
+    .mensagem { font-size: 0.95rem; opacity: 0.9; }
+
+    button {
+      margin-top: 18px;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff4d88, #ff8fb8);
+      color: #fff;
+      box-shadow: 0 0 25px rgba(255, 77, 136, 0.6);
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -20px;
+      font-size: 14px;
+      animation: float 4s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- TELA DE SENHA -->
-<div id="lock">
-  <div class="lock-box">
-    <h2>🔐 Só nós dois</h2>
-    <input id="senha" type="password" placeholder="Senha">
-    <button onclick="unlock()">❤️ Entrar</button>
-  </div>
+<!-- LOCKSCREEN -->
+<div id="lockscreen">
+  <h2>🔐 Só nós dois</h2>
+  <input type="password" id="senha" placeholder="Digite a senha" />
+  <div class="heart-btn" id="enterHeart"></div>
+  <div class="error" id="error"></div>
 </div>
 
 <!-- APP -->
-<div class="card">
+<div class="card hidden" id="app">
   <div class="heart" id="heart"></div>
   <h1>💖 Amorzinhos 💖</h1>
-  <div id="contador"></div>
-  <div id="mensagem"></div>
+  <div class="contador" id="contador"></div>
+  <div class="mensagem" id="mensagem"></div>
   <button id="playBtn">🎵 Tocar música</button>
 </div>
 
 <script>
-/* CONFIG */
 const SENHA_CORRETA = "0925";
-const startDate = new Date("2025-09-25T00:00:00");
+const inicio = new Date("2025-09-25T00:00:00");
 const musicUrl = "https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3";
 
-/* LOCK */
-function unlock(){
-  if(document.getElementById("senha").value === SENHA_CORRETA){
-    document.getElementById("lock").style.display="none";
-    startAudio(); // toca automaticamente
+const lock = document.getElementById('lockscreen');
+const app = document.getElementById('app');
+const errorEl = document.getElementById('error');
+const heartBtn = document.getElementById('enterHeart');
+
+heartBtn.onclick = () => {
+  const senha = document.getElementById('senha').value;
+  if (senha === SENHA_CORRETA) {
+    lock.classList.add('hidden');
+    app.classList.remove('hidden');
+    errorEl.textContent = '';
+  } else {
+    errorEl.textContent = 'Senha incorreta 💔';
+  }
+};
+
+const contadorEl = document.getElementById('contador');
+function atualizarContador() {
+  const agora = new Date();
+  const diff = agora - inicio;
+  const dias = Math.floor(diff / 86400000);
+  const horas = Math.floor((diff / 3600000) % 24);
+  const minutos = Math.floor((diff / 60000) % 60);
+  contadorEl.textContent = `Estamos juntos há ${dias} dias, ${horas}h ${minutos}m`;
+}
+setInterval(atualizarContador, 1000);
+
+const mensagens = [
+  'Te escolheria em todas as vidas 💕',
+  'Meu lugar favorito é ao seu lado 🫶',
+  'Você é meu hoje e todos os amanhãs ✨'
+];
+const mensagemEl = document.getElementById('mensagem');
+setInterval(() => {
+  mensagemEl.textContent = mensagens[Math.floor(Math.random()*mensagens.length)];
+}, 15000);
+
+let audioCtx, analyser, source, audio, dataArray;
+let tocando = false;
+function startAudio() {
+  if (!audioCtx) {
+    audio = new Audio(musicUrl);
+    audio.crossOrigin = 'anonymous';
+    audio.loop = true;
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    source = audioCtx.createMediaElementSource(audio);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+  }
+
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  if (!tocando) {
+    audio.play();
+    tocando = true;
+    playBtn.textContent = '⏸️ Pausar música';
+    animate();
+  } else {
+    audio.pause();
+    tocando = false;
+    playBtn.textContent = '🎵 Tocar música';
   }
 }
-
-/* CONTADOR */
-const contador=document.getElementById("contador");
-setInterval(()=>{
-  const diff=new Date()-startDate;
-  const d=Math.floor(diff/86400000);
-  const h=Math.floor(diff/3600000)%24;
-  const m=Math.floor(diff/60000)%60;
-  contador.textContent=`Estamos juntos há ${d} dias, ${h}h ${m}m`;
-},1000);
-
-/* MENSAGENS */
-const msgs=[
- "Cada dia com você é único 💕",
- "Meu lugar favorito é você 🫶",
- "Te escolheria mil vezes 💖"
-];
-const msgEl=document.getElementById("mensagem");
-setInterval(()=>msgEl.textContent=msgs[Math.floor(Math.random()*msgs.length)],8000);
-msgEl.textContent=msgs[0];
-
-/* ÁUDIO */
-let audio=new Audio(musicUrl);
-audio.loop=true;
-let playing=false;
-
-const heart=document.getElementById("heart");
-
-function startAudio(){
   audio.play();
-  playing=true;
   animate();
 }
 
-document.getElementById("playBtn").onclick=()=>{
-  if(playing){audio.pause();playing=false}
-  else{audio.play();playing=true}
-};
+function animate() {
+  if (!tocando) return;
 
-function animate(){
-  if(!playing) return;
-  const scale=1+Math.random()*0.1;
-  heart.style.transform=`translateX(-50%) rotate(-45deg) scale(${scale})`;
-  spawn();
-  if(navigator.vibrate) navigator.vibrate(40);
+  analyser.getByteFrequencyData(dataArray);
+  const bass = dataArray.slice(0, 10).reduce((a, b) => a + b, 0) / 10;
+
+  const heartEl = document.getElementById('heart');
+  const scale = 1 + bass / 280;
+  heartEl.style.transform = `translateX(-50%) rotate(-45deg) scale(${scale})`;
+
+  if (bass > 160) spawn();
+
   requestAnimationFrame(animate);
 }
-
-/* partículas */
-function spawn(){
-  const p=document.createElement("div");
-  p.className="particle";
-  p.textContent=Math.random()>0.5?"💖":"✨";
-  p.style.left=Math.random()*100+"vw";
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),4000);
 }
-</script>
 
+function spawn() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.textContent = Math.random() > 0.5 ? '💖' : '✨';
+  p.style.left = Math.random() * 100 + 'vw';
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 4000);
+}
+const playBtn = document.getElementById('playBtn');
+playBtn.addEventListener('click', startAudio);
+
+</script>
 </body>
 </html>
