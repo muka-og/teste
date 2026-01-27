@@ -5,25 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Amorzinhos 💖</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff4d88">
-
 <style>
-* { box-sizing: border-box; }
-
-body {
+html, body {
   margin: 0;
-  height: 100vh;
-  background: radial-gradient(circle, #2a0015, #000);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0;
+  height: 100%;
+  background: radial-gradient(circle at top, #300015, #000);
   font-family: Arial, sans-serif;
-  color: #fff;
   overflow: hidden;
 }
 
-/* 🔥 SPLASH */
+/* SPLASH */
 #splash {
   position: fixed;
   inset: 0;
@@ -33,208 +25,236 @@ body {
   align-items: center;
   z-index: 20;
 }
-
 #splash span {
-  font-size: 80px;
+  font-size: 2em;
+  color: #ff4d88;
   animation: pulse 1.2s infinite;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
+/* APP */
+#app {
+  display: none;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .card {
-  background: #0f0f0f;
+  background: #111;
   padding: 28px;
-  border-radius: 26px;
+  border-radius: 22px;
+  box-shadow: 0 0 30px rgba(255,77,136,.4);
   text-align: center;
-  box-shadow: 0 0 40px rgba(255,77,136,.6);
-  max-width: 320px;
-  width: 90%;
+  width: min(85vw, 340px);
   z-index: 2;
 }
 
 h1 { color: #ff4d88; }
 
-#contador { margin: 10px 0; }
+.time {
+  margin: 12px 0;
+  font-size: 1.2em;
+}
 
+#mensagem {
+  margin-top: 10px;
+  font-size: 0.95em;
+  color: #ff9bbd;
+}
+
+/* BOTÃO */
 button {
   margin-top: 15px;
   padding: 14px 26px;
-  background: #ff4d88;
+  background: linear-gradient(135deg,#ff4d88,#ff1f66);
   border: none;
   border-radius: 30px;
-  color: #fff;
+  color: white;
+  font-size: 1em;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255,77,136,.7);
+  box-shadow: 0 0 18px rgba(255,77,136,.7);
 }
 
-/* ❤️ CORAÇÃO */
+/* CORAÇÃO */
 #heart {
-  font-size: 70px;
-  margin: 10px 0;
-  transition: transform .1s, filter .1s;
+  font-size: 90px;
+  margin-bottom: 10px;
+  animation: pulse 1s infinite;
+  transition: color .2s, transform .1s;
 }
 
-/* ✨ PARTÍCULAS */
+/* PARTÍCULAS */
 .particle {
-  position: fixed;
-  bottom: -10px;
-  font-size: 14px;
-  animation: rise 3s linear forwards;
+  position: absolute;
+  bottom: -20px;
+  font-size: 18px;
+  opacity: .7;
+  animation: floatUp linear infinite;
 }
 
-@keyframes rise {
-  to {
-    transform: translateY(-120vh);
-    opacity: 0;
-  }
-}
-
-/* 🎉 SURPRESA */
+/* SURPRESA */
 #surpresa {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.85);
+  background: rgba(0,0,0,.9);
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  flex-direction: column;
+  z-index: 15;
 }
-
-#surpresa .heartBox {
-  width: 260px;
-  height: 230px;
-  background: #ff4d88;
-  position: relative;
-  transform: rotate(-45deg);
+#surpresa .big-heart {
+  font-size: 140px;
+  animation: pulse .9s infinite;
 }
-
-#surpresa .heartBox::before,
-#surpresa .heartBox::after {
-  content: "";
-  width: 260px;
-  height: 230px;
-  background: #ff4d88;
-  border-radius: 50%;
-  position: absolute;
-}
-
-#surpresa .heartBox::before { top: -130px; }
-#surpresa .heartBox::after { left: 130px; }
-
-#surpresa .msg {
-  position: absolute;
-  inset: 0;
-  transform: rotate(45deg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#surpresa p {
+  color: #ff7aa2;
+  font-size: 1.3em;
+  margin-top: 20px;
   text-align: center;
-  font-weight: bold;
-  padding: 20px;
+  max-width: 80%;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-120vh); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
-<div id="splash"><span>💖</span></div>
+<div id="splash"><span>💖 Amorzinhos 💖</span></div>
 
-<div class="card">
-  <h1>Amorzinhos 💖</h1>
+<div id="app">
   <div id="heart">❤️</div>
-  <p>Estamos juntos há:</p>
-  <div id="contador">...</div>
-  <button onclick="toggleMusica()">🎵 Tocar música</button>
-</div>
 
-<audio id="musica" src="https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3" loop></audio>
-
-<div id="surpresa">
-  <div class="heartBox">
-    <div class="msg" id="msgSurpresa"></div>
+  <div class="card">
+    <h1>💖 Amorzinhos 💖</h1>
+    <p>Estamos juntos há:</p>
+    <div class="time" id="contador"></div>
+    <div id="mensagem"></div>
+    <button id="btn">🎵 Tocar música</button>
   </div>
 </div>
 
+<div id="surpresa">
+  <div class="big-heart">❤️</div>
+  <p id="msgEspecial"></p>
+</div>
+
+<audio id="audio" src="https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3" crossorigin="anonymous"></audio>
+
 <script>
+/* DATA INICIAL */
+const inicio = new Date("2025-09-25T00:00:00");
+
+/* MENSAGENS ROMÂNTICAS */
+const mensagens = [
+  "Te amar é a melhor parte do meu dia 💖",
+  "Meu lugar favorito é ao seu lado 🖤",
+  "A gente é prova que o amor existe ✨",
+  "Cada dia com você é único 💫",
+  "Meu coração escolheu você 💓",
+  "Você é minha paz no caos 💭"
+];
+
+const msgEl = document.getElementById("mensagem");
+function novaMensagem() {
+  msgEl.innerText = mensagens[Math.floor(Math.random()*mensagens.length)];
+}
+novaMensagem();
+setInterval(novaMensagem, 30000);
+
 /* SPLASH */
-setTimeout(()=>document.getElementById("splash").style.display="none",2000);
+setTimeout(() => {
+  document.getElementById("splash").style.display = "none";
+  document.getElementById("app").style.display = "flex";
+}, 1600);
 
 /* CONTADOR */
-const inicio = new Date("2025-09-25T00:00:00");
 const contador = document.getElementById("contador");
-
 function atualizar() {
-  const diff = new Date() - inicio;
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor(diff / 3600000 % 24);
-  const m = Math.floor(diff / 60000 % 60);
-  contador.innerText = `${d} dias, ${h}h ${m}m`;
+  const agora = new Date();
+  const diff = agora - inicio;
+  const dias = Math.floor(diff / 86400000);
+  const horas = Math.floor(diff / 3600000) % 24;
+  const minutos = Math.floor(diff / 60000) % 60;
+  contador.innerText = `${dias} dias, ${horas}h ${minutos}m`;
 }
-setInterval(atualizar,1000);
+setInterval(atualizar, 60000);
 atualizar();
 
 /* AUDIO + BATIDA */
-const musica = document.getElementById("musica");
+const audio = document.getElementById("audio");
+const btn = document.getElementById("btn");
 const heart = document.getElementById("heart");
-let ctx, analyser, data;
 
-function toggleMusica() {
-  if (!ctx) {
-    ctx = new (window.AudioContext||webkitAudioContext)();
-    analyser = ctx.createAnalyser();
-    analyser.fftSize = 256;
-    const src = ctx.createMediaElementSource(musica);
-    src.connect(analyser);
-    analyser.connect(ctx.destination);
-    data = new Uint8Array(analyser.frequencyBinCount);
-    animate();
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+const src = ctx.createMediaElementSource(audio);
+const analyser = ctx.createAnalyser();
+src.connect(analyser);
+analyser.connect(ctx.destination);
+analyser.fftSize = 256;
+const data = new Uint8Array(analyser.frequencyBinCount);
+
+btn.onclick = async () => {
+  if (ctx.state === "suspended") await ctx.resume();
+  if (audio.paused) {
+    audio.play();
+    btn.innerText = "⏸️ Pausar música";
+  } else {
+    audio.pause();
+    btn.innerText = "🎵 Tocar música";
   }
-
-  musica.paused ? musica.play() : musica.pause();
-}
+};
 
 function animate() {
   analyser.getByteFrequencyData(data);
-  const avg = data.reduce((a,b)=>a+b)/data.length;
-
-  const scale = 1 + avg/120;
-  heart.style.transform = `scale(${scale})`;
-  heart.style.filter = `hue-rotate(${avg*3}deg) drop-shadow(0 0 20px pink)`;
-
-  if (avg > 120 && navigator.vibrate) navigator.vibrate(40);
-
-  if (avg > 100) createParticle();
-
+  const level = data.reduce((a,b)=>a+b,0)/data.length;
+  heart.style.transform = `scale(${1 + level/300})`;
+  heart.style.color = `hsl(${320+level},80%,60%)`;
+  if (navigator.vibrate && level > 120) navigator.vibrate(30);
   requestAnimationFrame(animate);
 }
+animate();
 
-function createParticle() {
+/* PARTÍCULAS */
+setInterval(() => {
   const p = document.createElement("div");
   p.className = "particle";
-  p.innerText = "✨";
+  p.innerText = "❤️";
   p.style.left = Math.random()*100+"vw";
+  p.style.animationDuration = 4+Math.random()*4+"s";
   document.body.appendChild(p);
-  setTimeout(()=>p.remove(),3000);
-}
+  setTimeout(()=>p.remove(),8000);
+}, 400);
 
-/* DIA 25 */
+/* DATAS ESPECIAIS */
 const hoje = new Date();
-if (hoje.getDate() === 25) {
-  const dias = Math.floor((hoje - inicio)/86400000);
-  document.getElementById("msgSurpresa").innerText =
-    `Estamos há ${dias} dias escrevendo a história do nosso amor 💖`;
-  document.getElementById("surpresa").style.display = "flex";
-}
+const dia = hoje.getDate();
+const mes = hoje.getMonth() + 1;
 
-/* PWA */
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
+const datasEspeciais = [
+  { d: 25, m: mes, msg: "Estamos escrevendo nossa história todos os meses 💖" },
+  { d: 12, m: 6, msg: "Feliz Dia dos Namorados, meu amor 💘" },
+  { d: 25, m: 9, msg: "Hoje é nosso dia 💍💖" }
+];
+
+datasEspeciais.forEach(e => {
+  if (dia === e.d && mes === e.m) {
+    document.getElementById("msgEspecial").innerText = e.msg;
+    document.getElementById("surpresa").style.display = "flex";
+  }
+});
 </script>
 
 </body>
