@@ -1,261 +1,278 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amorzinhos 💖</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ff4d88" />
+  <title>Amorzinhos 💖</title>
 
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: radial-gradient(circle at top, #300015, #000);
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-}
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
 
-/* SPLASH */
-#splash {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-}
-#splash span {
-  font-size: 2em;
-  color: #ff4d88;
-  animation: pulse 1.2s infinite;
-}
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #3a001f, #0b0006);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
 
-/* APP */
-#app {
-  display: none;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+    .card {
+      position: relative;
+      background: #111;
+      border-radius: 24px;
+      padding: 28px 22px 32px;
+      width: min(90vw, 360px);
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255, 77, 136, 0.35);
+      z-index: 2;
+    }
 
-.card {
-  background: #111;
-  padding: 28px;
-  border-radius: 22px;
-  box-shadow: 0 0 30px rgba(255,77,136,.4);
-  text-align: center;
-  width: min(85vw, 340px);
-  z-index: 2;
-}
+    h1 {
+      margin: 0 0 12px;
+      font-size: 1.6rem;
+      color: #ff5fa2;
+    }
 
-h1 { color: #ff4d88; }
+    .contador {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
 
-.time {
-  margin: 12px 0;
-  font-size: 1.2em;
-}
+    .mensagem {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      min-height: 1.4em;
+    }
 
-#mensagem {
-  margin-top: 10px;
-  font-size: 0.95em;
-  color: #ff9bbd;
-}
+    button {
+      margin-top: 18px;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff4d88, #ff8fb8);
+      color: #fff;
+      box-shadow: 0 0 25px rgba(255, 77, 136, 0.6);
+    }
 
-/* BOTÃO */
-button {
-  margin-top: 15px;
-  padding: 14px 26px;
-  background: linear-gradient(135deg,#ff4d88,#ff1f66);
-  border: none;
-  border-radius: 30px;
-  color: white;
-  font-size: 1em;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 18px rgba(255,77,136,.7);
-}
+    /* CORAÇÃO CENTRAL */
+    .heart {
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg) scale(1);
+      width: 90px;
+      height: 90px;
+      background: red;
+      animation: pulse 1s infinite;
+      filter: drop-shadow(0 0 20px red);
+    }
 
-/* CORAÇÃO */
-#heart {
-  font-size: 90px;
-  margin-bottom: 10px;
-  animation: pulse 1s infinite;
-  transition: color .2s, transform .1s;
-}
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background: inherit;
+      border-radius: 50%;
+    }
 
-/* PARTÍCULAS */
-.particle {
-  position: absolute;
-  bottom: -20px;
-  font-size: 18px;
-  opacity: .7;
-  animation: floatUp linear infinite;
-}
+    .heart::before { top: -45px; left: 0; }
+    .heart::after { left: 45px; top: 0; }
 
-/* SURPRESA */
-#surpresa {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 15;
-}
-#surpresa .big-heart {
-  font-size: 140px;
-  animation: pulse .9s infinite;
-}
-#surpresa p {
-  color: #ff7aa2;
-  font-size: 1.3em;
-  margin-top: 20px;
-  text-align: center;
-  max-width: 80%;
-}
+    @keyframes pulse {
+      0% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+      50% { transform: translateX(-50%) rotate(-45deg) scale(1.15); }
+      100% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+    }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-@keyframes floatUp {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-120vh); opacity: 0; }
-}
-</style>
+    /* PARTÍCULAS */
+    .particle {
+      position: absolute;
+      bottom: -20px;
+      font-size: 14px;
+      animation: float 4s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+    }
+
+    /* SPLASH */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, #ff4d88, #2b0016);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      animation: splashPulse 1.2s infinite alternate;
+    }
+
+    @keyframes splashPulse {
+      from { filter: brightness(1); }
+      to { filter: brightness(1.2); }
+    }
+
+    #splash.hidden { display: none; }
+  </style>
 </head>
-
 <body>
 
-<div id="splash"><span>💖 Amorzinhos 💖</span></div>
+<div id="splash">💖</div>
 
-<div id="app">
-  <div id="heart">❤️</div>
-
-  <div class="card">
-    <h1>💖 Amorzinhos 💖</h1>
-    <p>Estamos juntos há:</p>
-    <div class="time" id="contador"></div>
-    <div id="mensagem"></div>
-    <button id="btn">🎵 Tocar música</button>
-  </div>
+<div class="card">
+  <div class="heart" id="heart"></div>
+  <h1>💖 Amorzinhos 💖</h1>
+  <div class="contador" id="contador"></div>
+  <div class="mensagem" id="mensagem"></div>
+  <button id="playBtn">🎵 Tocar música</button>
 </div>
-
-<div id="surpresa">
-  <div class="big-heart">❤️</div>
-  <p id="msgEspecial"></p>
-</div>
-
-<audio id="audio" src="https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3" crossorigin="anonymous"></audio>
 
 <script>
-/* DATA INICIAL */
-const inicio = new Date("2025-09-25T00:00:00");
+// ================== CONFIG ==================
+const startDate = new Date('2024-10-23T00:00:00');
+const musicUrl = 'https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3';
 
-/* MENSAGENS ROMÂNTICAS */
 const mensagens = [
-  "Te amar é a melhor parte do meu dia 💖",
-  "Meu lugar favorito é ao seu lado 🖤",
-  "A gente é prova que o amor existe ✨",
-  "Cada dia com você é único 💫",
-  "Meu coração escolheu você 💓",
-  "Você é minha paz no caos 💭"
+  'Te escolheria em todas as vidas 💕',
+  'Meu lugar favorito é ao seu lado 🫶',
+  'A gente é casa um do outro 🏠',
+  'Você é meu hoje e todos os amanhãs ✨',
+  'Nosso amor é minha maior certeza 💖'
 ];
 
-const msgEl = document.getElementById("mensagem");
-function novaMensagem() {
-  msgEl.innerText = mensagens[Math.floor(Math.random()*mensagens.length)];
-}
-novaMensagem();
-setInterval(novaMensagem, 30000);
-
-/* SPLASH */
-setTimeout(() => {
-  document.getElementById("splash").style.display = "none";
-  document.getElementById("app").style.display = "flex";
-}, 1600);
-
-/* CONTADOR */
-const contador = document.getElementById("contador");
-function atualizar() {
-  const agora = new Date();
-  const diff = agora - inicio;
-  const dias = Math.floor(diff / 86400000);
-  const horas = Math.floor(diff / 3600000) % 24;
-  const minutos = Math.floor(diff / 60000) % 60;
-  contador.innerText = `${dias} dias, ${horas}h ${minutos}m`;
-}
-setInterval(atualizar, 60000);
-atualizar();
-
-/* AUDIO + BATIDA */
-const audio = document.getElementById("audio");
-const btn = document.getElementById("btn");
-const heart = document.getElementById("heart");
-
-const ctx = new (window.AudioContext || window.webkitAudioContext)();
-const src = ctx.createMediaElementSource(audio);
-const analyser = ctx.createAnalyser();
-src.connect(analyser);
-analyser.connect(ctx.destination);
-analyser.fftSize = 256;
-const data = new Uint8Array(analyser.frequencyBinCount);
-
-btn.onclick = async () => {
-  if (ctx.state === "suspended") await ctx.resume();
-  if (audio.paused) {
-    audio.play();
-    btn.innerText = "⏸️ Pausar música";
-  } else {
-    audio.pause();
-    btn.innerText = "🎵 Tocar música";
-  }
+const datasEspeciais = {
+  '2-14': '💘 Feliz Dia dos Namorados',
+  '6-12': '❤️ Nosso amor é eterno',
+  '12-25': '🎄 Amor até no Natal'
 };
+// ============================================
 
-function animate() {
-  analyser.getByteFrequencyData(data);
-  const level = data.reduce((a,b)=>a+b,0)/data.length;
-  heart.style.transform = `scale(${1 + level/300})`;
-  heart.style.color = `hsl(${320+level},80%,60%)`;
-  if (navigator.vibrate && level > 120) navigator.vibrate(30);
-  requestAnimationFrame(animate);
+const contadorEl = document.getElementById('contador');
+const mensagemEl = document.getElementById('mensagem');
+const playBtn = document.getElementById('playBtn');
+const heart = document.getElementById('heart');
+
+// SPLASH
+setTimeout(() => document.getElementById('splash').classList.add('hidden'), 1200);
+
+// CONTADOR
+function atualizarContador() {
+  const now = new Date();
+  const diff = now - startDate;
+
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diff / (1000 * 60)) % 60);
+
+  contadorEl.textContent = `Estamos juntos há ${dias} dias, ${horas}h ${minutos}m`;
 }
-animate();
+setInterval(atualizarContador, 1000);
+atualizarContador();
 
-/* PARTÍCULAS */
-setInterval(() => {
-  const p = document.createElement("div");
-  p.className = "particle";
-  p.innerText = "❤️";
-  p.style.left = Math.random()*100+"vw";
-  p.style.animationDuration = 4+Math.random()*4+"s";
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),8000);
-}, 400);
+// MENSAGENS
+function atualizarMensagem() {
+  const now = new Date();
+  const key = `${now.getMonth()+1}-${now.getDate()}`;
 
-/* DATAS ESPECIAIS */
-const hoje = new Date();
-const dia = hoje.getDate();
-const mes = hoje.getMonth() + 1;
-
-const datasEspeciais = [
-  { d: 25, m: mes, msg: "Estamos escrevendo nossa história todos os meses 💖" },
-  { d: 12, m: 6, msg: "Feliz Dia dos Namorados, meu amor 💘" },
-  { d: 25, m: 9, msg: "Hoje é nosso dia 💍💖" }
-];
-
-datasEspeciais.forEach(e => {
-  if (dia === e.d && mes === e.m) {
-    document.getElementById("msgEspecial").innerText = e.msg;
-    document.getElementById("surpresa").style.display = "flex";
+  if (datasEspeciais[key]) {
+    mensagemEl.textContent = datasEspeciais[key];
+  } else {
+    mensagemEl.textContent = mensagens[Math.floor(Math.random() * mensagens.length)];
   }
-});
-</script>
+}
+setInterval(atualizarMensagem, 15000);
+atualizarMensagem();
 
+// PARTÍCULAS
+function spawnParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.textContent = Math.random() > 0.5 ? '💖' : '✨';
+  p.style.left = Math.random() * 100 + 'vw';
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 4000);
+}
+
+// ÁUDIO + BATIDA REAL
+let audioCtx, analyser, source, dataArray;
+let audio;
+
+function startAudio() {
+  if (!audioCtx) {
+    audio = new Audio(musicUrl);
+    audio.crossOrigin = 'anonymous';
+    audio.loop = true;
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    source = audioCtx.createMediaElementSource(audio);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+  }
+
+  audio.play();
+  animateBeat();
+}
+
+function animateBeat() {
+  analyser.getByteFrequencyData(dataArray);
+  const bass = dataArray.slice(0, 10).reduce((a,b)=>a+b,0)/10;
+  const scale = 1 + bass / 300;
+
+  heart.style.transform = `translateX(-50%) rotate(-45deg) scale(${scale})`;
+  heart.style.background = `hsl(${bass*2}, 80%, 60%)`;
+
+  if (bass > 160) {
+    spawnParticle();
+    if (navigator.vibrate) navigator.vibrate(40);
+  }
+
+  requestAnimationFrame(animateBeat);
+}
+
+playBtn.addEventListener('click', () => {
+  startAudio();
+});
+
+// SERVICE WORKER
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>
+
+/* =======================
+manifest.json
+=======================
+{
+  "name": "Amorzinhos",
+  "short_name": "Amor",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ff4d88",
+  "theme_color": "#ff4d88"
+}
+
+=======================
+sw.js
+=======================
+self.addEventListener('fetch', () => {});
+*/
