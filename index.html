@@ -2,300 +2,159 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#ff4d88" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amorzinhos 💖</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json" />
-
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body {
       margin: 0;
       min-height: 100vh;
+      background: radial-gradient(circle, #ff5c9d, #6b0f2c);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at top, #3a001f, #0b0006);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
       overflow: hidden;
-      color: #fff;
     }
 
-    .card {
-      position: relative;
-      background: #111;
-      border-radius: 24px;
-      padding: 28px 22px 32px;
-      width: min(90vw, 360px);
+    .screen {
+      display: none;
       text-align: center;
-      box-shadow: 0 0 40px rgba(255, 77, 136, 0.35);
-      z-index: 2;
+      width: 90%;
+      max-width: 360px;
+      padding: 24px;
+      background: rgba(0,0,0,0.45);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255, 0, 100, 0.5);
     }
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: 1.6rem;
-      color: #ff5fa2;
-    }
+    .screen.active { display: block; }
 
-    .contador {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      color: #ffffff; /* contador branco */
-    }
+    h1 { margin-bottom: 12px; }
 
-    .mensagem {
-      font-size: 0.95rem;
-      opacity: 0.9;
-      min-height: 1.4em;
-    }
-
-    button {
-      margin-top: 18px;
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
       border: none;
-      border-radius: 999px;
-      padding: 14px 22px;
-      font-size: 1rem;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff4d88, #ff8fb8);
-      color: #fff;
-      box-shadow: 0 0 25px rgba(255, 77, 136, 0.6);
+      outline: none;
+      font-size: 16px;
+      margin-bottom: 16px;
+      text-align: center;
     }
 
-    /* CORAÇÃO CENTRAL */
-    .heart {
-      position: absolute;
+    .heart-btn {
       width: 80px;
       height: 80px;
-      background: red;
-      transform: rotate(-45deg) scale(1);
-      animation: pulse 1s infinite;
-      filter: drop-shadow(0 0 20px red);
-    }
-
-    .heart-button {
-      position: relative;
-      margin: 0 auto 12px;
-      top: 0;
-      left: 0;
-    }(0 0 20px red);
-    }
-
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 90px;
-      height: 90px;
-      background: inherit;
       border-radius: 50%;
+      border: none;
+      background: #ff3d7f;
+      color: #fff;
+      font-size: 36px;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
     }
-
-    .heart::before { top: -45px; left: 0; }
-    .heart::after { left: 45px; top: 0; }
 
     @keyframes pulse {
-      0% { transform: translateX(-50%) rotate(-45deg) scale(1); }
-      50% { transform: translateX(-50%) rotate(-45deg) scale(1.15); }
-      100% { transform: translateX(-50%) rotate(-45deg) scale(1); }
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 61, 127, 0.7); }
+      50% { transform: scale(1.15); box-shadow: 0 0 30px rgba(255, 61, 127, 0.9); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 61, 127, 0.7); }
     }
 
-    /* PARTÍCULAS */
-    .particle {
-      position: absolute;
-      bottom: -20px;
-      font-size: 14px;
-      animation: float 4s linear forwards;
-      pointer-events: none;
+    .counter {
+      font-size: 18px;
+      margin: 12px 0;
+      color: #fff;
     }
 
-    @keyframes float {
-      from { transform: translateY(0) scale(1); opacity: 1; }
-      to { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+    .big-heart {
+      font-size: 64px;
+      margin-bottom: 12px;
+      animation: pulse 1.2s infinite;
     }
 
-    /* SPLASH */
-    #splash {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle, #ff4d88, #2b0016);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      animation: splashPulse 1.2s infinite alternate;
+    .music-btn {
+      margin-top: 12px;
+      padding: 14px 20px;
+      border-radius: 30px;
+      border: none;
+      background: #ff3d7f;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
     }
-
-    @keyframes splashPulse {
-      from { filter: brightness(1); }
-      to { filter: brightness(1.2); }
-    }
-
-    #splash.hidden { display: none; }
   </style>
 </head>
 <body>
 
-<div id="splash">💖</div>
+  <!-- TELA DE SENHA -->
+  <div class="screen active" id="login">
+    <h1>🔐 Só nós dois</h1>
+    <p>Digite a senha 💌</p>
+    <input type="password" id="senha" placeholder="Senha secreta" />
+    <button class="heart-btn" onclick="checkSenha()">💖</button>
+    <p id="erro" style="color:#ffb3c7; margin-top:10px;"></p>
+  </div>
 
-<div class="card">
-  <h1>💖 Amorzinhos 💖</h1>
-  <div class="contador" id="contador"></div>
-  <div class="mensagem" id="mensagem"></div>
+  <!-- TELA PRINCIPAL -->
+  <div class="screen" id="app">
+    <div class="big-heart">💓</div>
+    <h1>Amorzinhos 💕</h1>
+    <div class="counter" id="contador"></div>
+    <p>Cada dia com você é único ✨</p>
+    <button class="music-btn" onclick="toggleMusic()">⏸ Pausar música</button>
+  </div>
 
-  <!-- CORAÇÃO SOBRE O BOTÃO -->
-  <div class="heart heart-button" id="heart"></div>
+  <audio id="musica" src="https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3" loop></audio>
 
-  <button id="playBtn">🎵 Tocar música</button>
-</div>
+  <script>
+    const SENHA_CORRETA = "amor25"; // <<< MUDE AQUI
+    const inicio = new Date("2025-09-23T00:00:00"); // <<< DATA DE INÍCIO
 
-<script>
-// ================== CONFIG ==================
-const startDate = new Date('2024-10-23T00:00:00');
-const musicUrl = 'https://growing-tan-f0hzfedqrl.edgeone.app/aliancas.mp3';
+    function checkSenha() {
+      const senha = document.getElementById("senha").value;
+      if (senha === SENHA_CORRETA) {
+        document.getElementById("login").classList.remove("active");
+        document.getElementById("app").classList.add("active");
+        iniciar();
+      } else {
+        document.getElementById("erro").innerText = "Senha errada 😢";
+      }
+    }
 
-const mensagens = [
-  'Te escolheria em todas as vidas 💕',
-  'Meu lugar favorito é ao seu lado 🫶',
-  'A gente é casa um do outro 🏠',
-  'Você é meu hoje e todos os amanhãs ✨',
-  'Nosso amor é minha maior certeza 💖'
-];
+    function iniciar() {
+      atualizarContador();
+      setInterval(atualizarContador, 1000);
+      const musica = document.getElementById("musica");
+      musica.volume = 0.8;
+      musica.play().catch(()=>{});
+    }
 
-const datasEspeciais = {
-  '2-14': '💘 Feliz Dia dos Namorados',
-  '6-12': '❤️ Nosso amor é eterno',
-  '12-25': '🎄 Amor até no Natal'
-};
-// ============================================
+    function atualizarContador() {
+      const agora = new Date();
+      let diff = Math.floor((agora - inicio) / 1000);
+      const dias = Math.floor(diff / 86400);
+      diff %= 86400;
+      const horas = Math.floor(diff / 3600);
+      diff %= 3600;
+      const minutos = Math.floor(diff / 60);
 
-const contadorEl = document.getElementById('contador');
-const mensagemEl = document.getElementById('mensagem');
-const playBtn = document.getElementById('playBtn');
-const heart = document.getElementById('heart');
+      document.getElementById("contador").innerText =
+        `${dias} dias, ${horas}h ${minutos}m`;
+    }
 
-// SPLASH
-setTimeout(() => document.getElementById('splash').classList.add('hidden'), 1200);
+    function toggleMusic() {
+      const musica = document.getElementById("musica");
+      const btn = event.target;
+      if (musica.paused) {
+        musica.play();
+        btn.innerText = "⏸ Pausar música";
+      } else {
+        musica.pause();
+        btn.innerText = "▶ Tocar música";
+      }
+    }
+  </script>
 
-// CONTADOR
-function atualizarContador() {
-  const now = new Date();
-  const diff = now - startDate;
-
-  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutos = Math.floor((diff / (1000 * 60)) % 60);
-
-  contadorEl.textContent = `Estamos juntos há ${dias} dias, ${horas}h ${minutos}m`;
-}
-setInterval(atualizarContador, 1000);
-atualizarContador();
-
-// MENSAGENS
-function atualizarMensagem() {
-  const now = new Date();
-  const key = `${now.getMonth()+1}-${now.getDate()}`;
-
-  if (datasEspeciais[key]) {
-    mensagemEl.textContent = datasEspeciais[key];
-  } else {
-    mensagemEl.textContent = mensagens[Math.floor(Math.random() * mensagens.length)];
-  }
-}
-setInterval(atualizarMensagem, 15000);
-atualizarMensagem();
-
-// PARTÍCULAS
-function spawnParticle() {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  p.textContent = Math.random() > 0.5 ? '💖' : '✨';
-  p.style.left = Math.random() * 100 + 'vw';
-  document.body.appendChild(p);
-  setTimeout(() => p.remove(), 4000);
-}
-
-// ÁUDIO + BATIDA REAL
-let audioCtx, analyser, source, dataArray;
-let audio;
-
-function startAudio() {
-  if (!audioCtx) {
-    audio = new Audio(musicUrl);
-    audio.crossOrigin = 'anonymous';
-    audio.loop = true;
-
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    source = audioCtx.createMediaElementSource(audio);
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-  }
-
-  audio.play();
-  animateBeat();
-}
-
-function animateBeat() {
-  analyser.getByteFrequencyData(dataArray);
-  const bass = dataArray.slice(0, 10).reduce((a,b)=>a+b,0)/10;
-  const scale = 1 + bass / 300;
-
-  heart.style.transform = `translateX(-50%) rotate(-45deg) scale(${scale})`;
-  heart.style.background = `hsl(${bass*2}, 80%, 60%)`;
-
-  if (bass > 160) {
-    spawnParticle();
-    if (navigator.vibrate) navigator.vibrate(40);
-  }
-
-  requestAnimationFrame(animateBeat);
-}
-
-playBtn.addEventListener('click', async () => {
-  if (!audioCtx) {
-    startAudio();
-    playBtn.textContent = '⏸️ Pausar música';
-  } else if (audio.paused) {
-    await audioCtx.resume();
-    audio.play();
-    playBtn.textContent = '⏸️ Pausar música';
-  } else {
-    audio.pause();
-    playBtn.textContent = '🎵 Tocar música';
-  }
-});
-});
-
-// SERVICE WORKER
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-</script>
 </body>
 </html>
-
-
-/* =======================
-manifest.json
-=======================
-{
-"name": "Amorzinhos",
-"short_name": "Amor",
-"start_url": ".",
-"display": "standalone",
-"background_color": "#ff4d88",
-"theme_color": "#ff4d88"
-}
-
-
-=======================
-sw.js
-=======================
-self.addEventListener('fetch', () => {});
-*/
